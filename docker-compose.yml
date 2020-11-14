@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+  webshop-mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_USER=${DATABASE_USER}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+    ports:
+      - 3306:3306
+#    expose:
+#      - 3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  webshop-api:
+    container_name: webshop-api
+    build:
+      context: ./webshop
+      dockerfile: Dockerfile
+    image: webshop-api:latest
+    restart: on-failure
+    depends_on:
+      - webshop-mysql
+    ports:
+      - 80:8080
+    environment:
+      - DATABASE_HOST=webshop-mysql
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+
+volumes:
+  mysql-data:
