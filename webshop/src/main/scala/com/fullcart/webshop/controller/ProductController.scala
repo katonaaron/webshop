@@ -3,6 +3,7 @@ package com.fullcart.webshop.controller
 import java.util
 import java.util.stream.Collectors
 
+import com.fullcart.webshop.exception.EntityNotFoundException
 import com.fullcart.webshop.model.assembler.ProductModelAssembler
 import com.fullcart.webshop.model.Product
 import com.fullcart.webshop.repository.ProductRepository
@@ -39,7 +40,7 @@ class ProductController(private val repository: ProductRepository, private val a
   def one(@PathVariable id: Long): EntityModel[Product] =
     {
       val product = repository.findById(id)
-        .orElseThrow(() => new ProductNotFoundException(id))
+        .orElseThrow(() => new EntityNotFoundException(id))
 
       assembler.toModel(product)
     }
@@ -67,7 +68,7 @@ class ProductController(private val repository: ProductRepository, private val a
     }
 
   @DeleteMapping(Array("/products/{id}"))
-  def deleteProduct(@PathVariable id: Long): Unit =
+  def deleteProduct(@PathVariable id: Long): ResponseEntity[Nothing] =
     {
       repository.deleteById(id)
       ResponseEntity.noContent().build()

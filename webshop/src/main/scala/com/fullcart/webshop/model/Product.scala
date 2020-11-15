@@ -1,9 +1,7 @@
 package com.fullcart.webshop.model
 
-import java.beans.BeanProperty
-
 import javax.persistence.{Entity, GeneratedValue, Id}
-import javax.validation.constraints.NotBlank
+import javax.validation.constraints.{NotBlank, NotNull}
 
 import scala.beans.BeanProperty
 
@@ -15,10 +13,11 @@ class Product {
   @BeanProperty
   var id: Long = _
 
+  @NotNull(message = "Price is mandatory")
   @BeanProperty
-  var price: Long =_
+  var price: Double =_
 
-  @NotBlank
+  @NotBlank(message = "Name is mandatory")
   @BeanProperty
   var name: String =_
 

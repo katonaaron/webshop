@@ -2,6 +2,7 @@ package com.fullcart.webshop.controller
 
 import java.util.stream.Collectors
 
+import com.fullcart.webshop.exception.EntityNotFoundException
 import com.fullcart.webshop.model.assembler.OrderModelAssembler
 import com.fullcart.webshop.repository.OrderRepository
 import org.springframework.hateoas.{CollectionModel, EntityModel, IanaLinkRelations}
@@ -38,34 +39,13 @@ class OrderController(private val repository: OrderRepository, private val assem
   @GetMapping(Array("/orders/{id}"))
   def one(@PathVariable id: Long): EntityModel[Order]={
     val order = repository.findById(id)
-      .orElseThrow(() => new OrderNotFoundException(id))
+      .orElseThrow(() => new EntityNotFoundException(id))
 
     assembler.toModel(order)
   }
 
-  @PutMapping(Array("/orders/{id}"))
-  def replaceOrder(@Valid @RequestBody newOrder: Order, @PathVariable id: Long): ResponseEntity[EntityModel[Order]]={
-    val updatedOrder = repository.findById(id)
-      .map{order =>
-        order.date = newOrder.date
-        order.price = newOrder.price
-        repository.save(order)
-      }
-
-      .orElseGet{() =>
-        newOrder.id =id
-        repository.save(newOrder)
-      }
-
-    val entityModel = assembler.toModel(updatedOrder)
-    ResponseEntity
-      .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri)
-      .body(entityModel)
-
-  }
-
   @DeleteMapping(Array("/orders/{id}"))
-  def deleteOrder(@PathVariable id : Long): Unit = {
+  def deleteOrder(@PathVariable id : Long): ResponseEntity[Nothing] = {
     repository.deleteById(id)
     ResponseEntity.noContent().build()
   }

@@ -6,7 +6,7 @@ import org.springframework.hateoas.EntityModel
 import org.springframework.hateoas.server.RepresentationModelAssembler
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.{linkTo, methodOn}
 import com.fullcart.webshop.model.Order
-import org.graalvm.compiler.lir.CompositeValue.Component
+import org.springframework.stereotype.Component
 
 @Component
 class OrderModelAssembler extends RepresentationModelAssembler[Order, EntityModel[Order]]{

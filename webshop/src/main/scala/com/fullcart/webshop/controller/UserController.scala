@@ -2,7 +2,7 @@ package com.fullcart.webshop.controller
 
 import java.util.stream.Collectors
 
-import com.fullcart.webshop.exception.UserNotFoundException
+import com.fullcart.webshop.exception.EntityNotFoundException
 import com.fullcart.webshop.model.User
 import com.fullcart.webshop.model.assembler.UserModelAssembler
 import com.fullcart.webshop.repository.UserRepository
@@ -42,7 +42,7 @@ class UserController(private val repository: UserRepository, private val assembl
   @GetMapping(Array("/users/{id}"))
   def one(@PathVariable id: Long): EntityModel[User] = {
     val user = repository.findById(id)
-      .orElseThrow(() => new UserNotFoundException(id))
+      .orElseThrow(() => new EntityNotFoundException(id))
 
     assembler.toModel(user)
   }
@@ -68,7 +68,7 @@ class UserController(private val repository: UserRepository, private val assembl
   }
 
   @DeleteMapping(Array("/users/{id}"))
-  def deleteUser(@PathVariable id: Long): Unit = {
+  def deleteUser(@PathVariable id: Long): ResponseEntity[Nothing] = {
     repository.deleteById(id)
     ResponseEntity.noContent().build()
   }

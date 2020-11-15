@@ -1,11 +1,11 @@
 package com.fullcart.webshop.model.assembler
 
 import com.fullcart.webshop.controller.ProductController
-import org.graalvm.compiler.lir.CompositeValue.Component
 import org.springframework.hateoas.EntityModel
 import org.springframework.hateoas.server.RepresentationModelAssembler
 import com.fullcart.webshop.model.Product
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.{linkTo, methodOn}
+import org.springframework.stereotype.Component
 
 
 @Component
