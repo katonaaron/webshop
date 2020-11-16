@@ -1,7 +1,8 @@
 package com.fullcart.webshop.model
 
-import javax.persistence.{Entity, GeneratedValue, Id}
+import javax.persistence.{Entity, GeneratedValue, Id, ManyToMany}
 import javax.validation.constraints.{NotBlank, NotNull}
+import net.minidev.json.annotate.JsonIgnore
 
 import scala.beans.BeanProperty
 
@@ -23,5 +24,9 @@ class Product {
 
   @BeanProperty
   var description: String=_
+
+  @JsonIgnore
+  @ManyToMany(mappedBy = "products")
+  var orders: java.util.List[Order] = _
 
 }

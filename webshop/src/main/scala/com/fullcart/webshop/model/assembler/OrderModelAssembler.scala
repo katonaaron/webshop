@@ -1,11 +1,9 @@
 package com.fullcart.webshop.model.assembler
 
-
 import com.fullcart.webshop.controller.{OrderController, ProductController, RootController, UserController}
-import org.springframework.hateoas.{CollectionModel, EntityModel, SimpleIdentifiableRepresentationModelAssembler}
-import org.springframework.hateoas.server.RepresentationModelAssembler
+import com.fullcart.webshop.model.Order
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.{linkTo, methodOn}
-import com.fullcart.webshop.model.{Order, User}
+import org.springframework.hateoas.{CollectionModel, EntityModel, SimpleIdentifiableRepresentationModelAssembler}
 import org.springframework.stereotype.Component
 
 @Component
@@ -14,7 +12,13 @@ class OrderModelAssembler extends SimpleIdentifiableRepresentationModelAssembler
   override def addLinks(resource: EntityModel[Order]): Unit = {
     super.addLinks(resource)
 
-    resource.add(linkTo(methodOn(classOf[UserController]).findUser(resource.getContent.id)).withRel("user"))
+    val order = resource.getContent
+
+    resource.add(linkTo(methodOn(classOf[UserController]).findUser(order.id)).withRel("user"))
+
+    if (!order.products.isEmpty) {
+      resource.add(linkTo(methodOn(classOf[ProductController]).findProducts(order.id)).withRel("products"))
+    }
   }
 
   override def addLinks(resources: CollectionModel[EntityModel[Order]]): Unit = {

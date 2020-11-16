@@ -1,10 +1,9 @@
 package com.fullcart.webshop.model.assembler
 
 import com.fullcart.webshop.controller.{OrderController, ProductController, RootController, UserController}
-import org.springframework.hateoas.{CollectionModel, EntityModel, SimpleIdentifiableRepresentationModelAssembler}
-import org.springframework.hateoas.server.RepresentationModelAssembler
-import com.fullcart.webshop.model.{Order, Product, User}
+import com.fullcart.webshop.model.Product
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.{linkTo, methodOn}
+import org.springframework.hateoas.{CollectionModel, EntityModel, SimpleIdentifiableRepresentationModelAssembler}
 import org.springframework.stereotype.Component
 
 
