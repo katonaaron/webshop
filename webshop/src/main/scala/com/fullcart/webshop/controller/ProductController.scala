@@ -2,8 +2,6 @@ package com.fullcart.webshop.controller
 
 import java.util
 import java.util.stream.Collectors
-
-import com.fullcart.webshop.exception.EntityNotFoundException
 import com.fullcart.webshop.model.assembler.ProductModelAssembler
 import com.fullcart.webshop.model.Product
 import com.fullcart.webshop.repository.ProductRepository
@@ -16,16 +14,8 @@ import org.springframework.web.bind.annotation.{DeleteMapping, GetMapping, PathV
 class ProductController(private val repository: ProductRepository, private val assembler: ProductModelAssembler) {
 
   @GetMapping(Array("/products"))
-  def all(): CollectionModel[EntityModel[Product]] =
-    {
-      val products = repository.findAll().stream()
-        .map(product => assembler.toModel(product))
-        .collect(Collectors.toList())
-
-      CollectionModel.of(products,
-        linkTo(methodOn(classOf[ProductController]).all()).withSelfRel()
-      )
-    }
+  def findAll(): ResponseEntity[CollectionModel[EntityModel[Product]]] =
+    ResponseEntity.ok(assembler.toCollectionModel(repository.findAll()))
 
   @PostMapping(Array("/products"))
   def newProduct(@Valid @RequestBody product: Product): ResponseEntity[EntityModel[Product]] ={
@@ -37,13 +27,11 @@ class ProductController(private val repository: ProductRepository, private val a
   }
 
   @GetMapping(Array("/products/{id}"))
-  def one(@PathVariable id: Long): EntityModel[Product] =
-    {
-      val product = repository.findById(id)
-        .orElseThrow(() => new EntityNotFoundException(id))
-
-      assembler.toModel(product)
-    }
+  def one(@PathVariable id: Long): ResponseEntity[EntityModel[Product]] =
+    repository.findById(id)
+      .map(assembler.toModel _)
+      .map(ResponseEntity.ok(_))
+      .orElse(ResponseEntity.notFound().build())
 
   @PutMapping(Array("/products/{id}"))
   def replaceProduct(@Valid @RequestBody newProduct: Product, @PathVariable id: Long): ResponseEntity[EntityModel[Product]]=

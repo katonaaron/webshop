@@ -1,8 +1,6 @@
 package com.fullcart.webshop.controller
 
 import java.util.stream.Collectors
-
-import com.fullcart.webshop.exception.EntityNotFoundException
 import com.fullcart.webshop.model.User
 import com.fullcart.webshop.model.assembler.UserModelAssembler
 import com.fullcart.webshop.repository.UserRepository
@@ -18,15 +16,8 @@ class UserController(private val repository: UserRepository, private val assembl
   // Aggregate root
 
   @GetMapping(Array("/users"))
-  def all(): CollectionModel[EntityModel[User]] = {
-    val users = repository.findAll().stream()
-      .map(user => assembler.toModel(user))
-      .collect(Collectors.toList())
-
-    CollectionModel.of(users,
-      linkTo(methodOn(classOf[UserController]).all()).withSelfRel()
-    )
-  }
+  def findAll(): ResponseEntity[CollectionModel[EntityModel[User]]] =
+    ResponseEntity.ok(assembler.toCollectionModel(repository.findAll()))
 
   @PostMapping(Array("/users"))
   def newUser(@Valid @RequestBody user: User): ResponseEntity[EntityModel[User]] = {
@@ -40,12 +31,12 @@ class UserController(private val repository: UserRepository, private val assembl
   // Single item
 
   @GetMapping(Array("/users/{id}"))
-  def one(@PathVariable id: Long): EntityModel[User] = {
-    val user = repository.findById(id)
-      .orElseThrow(() => new EntityNotFoundException(id))
+  def findOne(@PathVariable id: Long): ResponseEntity[EntityModel[User]] =
+    repository.findById(id)
+      .map(assembler.toModel _)
+      .map(ResponseEntity.ok(_))
+      .orElse(ResponseEntity.notFound().build())
 
-    assembler.toModel(user)
-  }
 
   @PutMapping(Array("/users/{id}"))
   def replaceUser(@Valid @RequestBody newUser: User, @PathVariable id: Long): ResponseEntity[EntityModel[User]] = {
@@ -72,4 +63,9 @@ class UserController(private val repository: UserRepository, private val assembl
     repository.deleteById(id)
     ResponseEntity.noContent().build()
   }
+
+
+  @GetMapping(Array("/orders/{id}/user"))
+  def findUser(@PathVariable id: Long): ResponseEntity[EntityModel[User]] =
+    ResponseEntity.ok(assembler.toModel(repository.findByOrdersId(id)))
 }

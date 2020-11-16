@@ -1,17 +1,23 @@
 package com.fullcart.webshop.model.assembler
 
-import com.fullcart.webshop.controller.ProductController
-import org.springframework.hateoas.EntityModel
+import com.fullcart.webshop.controller.{OrderController, ProductController, RootController, UserController}
+import org.springframework.hateoas.{CollectionModel, EntityModel, SimpleIdentifiableRepresentationModelAssembler}
 import org.springframework.hateoas.server.RepresentationModelAssembler
-import com.fullcart.webshop.model.Product
+import com.fullcart.webshop.model.{Order, Product, User}
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.{linkTo, methodOn}
 import org.springframework.stereotype.Component
 
 
 @Component
-class ProductModelAssembler extends  RepresentationModelAssembler[Product, EntityModel[Product]]{
-  override def toModel(product: Product): EntityModel[Product] =
-    EntityModel.of(product,
-      linkTo(methodOn(classOf[ProductController]).one(product.id)).withSelfRel(),
-      linkTo(methodOn(classOf[ProductController]).all()).withRel("products"))
+class ProductModelAssembler extends SimpleIdentifiableRepresentationModelAssembler[Product](classOf[ProductController]) {
+
+  override def addLinks(resource: EntityModel[Product]): Unit = super.addLinks(resource)
+
+  override def addLinks(resources: CollectionModel[EntityModel[Product]]): Unit = {
+    super.addLinks(resources)
+
+    resources.add(linkTo(methodOn(classOf[UserController]).findAll()).withRel("users"))
+    resources.add(linkTo(methodOn(classOf[OrderController]).findAll()).withRel("orders"))
+    resources.add(linkTo(methodOn(classOf[RootController]).root()).withRel("root"))
+  }
 }

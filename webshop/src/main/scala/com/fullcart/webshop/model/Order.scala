@@ -2,7 +2,8 @@ package com.fullcart.webshop.model
 
 import java.util.{Calendar, Date}
 
-import javax.persistence.{Entity, GeneratedValue, Id, Table}
+import com.fasterxml.jackson.annotation.JsonIgnore
+import javax.persistence.{Entity, GeneratedValue, Id, ManyToMany, ManyToOne, OneToMany, Table}
 import javax.validation.constraints.NotNull
 import org.springframework.lang.NonNull
 
@@ -23,4 +24,8 @@ class Order {
 
   @BeanProperty
   val date: Date = Calendar.getInstance().getTime
+
+  @JsonIgnore
+  @ManyToOne
+  val user: User = null
 }

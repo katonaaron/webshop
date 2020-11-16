@@ -6,5 +6,5 @@ import com.fullcart.webshop.model.Order
 
 @Repository
 trait OrderRepository extends  JpaRepository[Order, Long]{
-
+  def findByUserId(id: Long) : java.util.List[Order]
 }

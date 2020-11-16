@@ -1,6 +1,9 @@
 package com.fullcart.webshop.model
 
-import javax.persistence.{Entity, GeneratedValue, Id}
+import java.util
+
+import com.fasterxml.jackson.annotation.JsonIgnore
+import javax.persistence.{Entity, GeneratedValue, Id, OneToMany}
 import javax.validation.constraints.{Email, NotBlank}
 
 import scala.beans.BeanProperty
@@ -27,7 +30,8 @@ class User extends Serializable {
   @BeanProperty
   var email: String = _
 
-  //  @OneToMany(mappedBy = "user")
-  //  val orders : Set[Order] = _
+  @JsonIgnore
+  @OneToMany(mappedBy = "user")
+  val orders: java.util.List[Order] = new util.ArrayList[Order]()
 
 }
