@@ -16,6 +16,8 @@ COPY pom.xml .
 # the pom.xml file has changed.
 RUN ./mvnw dependency:go-offline -B
 
+RUN ./mvnw -B dependency:resolve dependency:resolve-plugins
+
 # Copy the project source
 COPY src src
 
@@ -33,4 +35,4 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.fullcart.webshop.Application"]
+ENTRYPOINT ["java","-cp","app:app/lib/*", "com.fullcart.webshop.WebshopApplication"]
