@@ -1,34 +1,30 @@
 package com.fullcart.webshop.model
 
-import java.util
 import java.util.{Calendar, Date}
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import javax.persistence.{CascadeType, Entity, FetchType, GeneratedValue, Id, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, Table}
+import javax.persistence._
 import javax.validation.constraints.NotNull
-import org.springframework.lang.NonNull
 
 import scala.beans.BeanProperty
+import scala.jdk.CollectionConverters._
 
 @Entity
 @Table(name = "USER_ORDER")
 class Order {
 
+  @BeanProperty
+  val date: Date = Calendar.getInstance().getTime
   @Id
   @GeneratedValue
   @BeanProperty
   var id: Long = _
-
   @NotNull(message = "Price is mandatory")
   @BeanProperty
   var price: Double = _
-
-  @BeanProperty
-  val date: Date = Calendar.getInstance().getTime
-
   @JsonIgnore
   @ManyToOne
-  val user: User = null
+  var user: User = _
 
   @JsonIgnore
   @ManyToMany(
@@ -40,4 +36,11 @@ class Order {
     inverseJoinColumns = Array(new JoinColumn(name = "product_id"))
   )
   var products: java.util.List[Product] = _
+
+  def this(user: User, products: Seq[Product]) {
+    this
+    this.user = user
+    this.products = products.asJava
+    this.price = products.map { p => p.price }.sum
+  }
 }

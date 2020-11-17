@@ -16,7 +16,7 @@ class OrderModelAssembler extends SimpleIdentifiableRepresentationModelAssembler
 
     resource.add(linkTo(methodOn(classOf[UserController]).findUser(order.id)).withRel("user"))
 
-    if (!order.products.isEmpty) {
+    if (order.products != null && !order.products.isEmpty) {
       resource.add(linkTo(methodOn(classOf[ProductController]).findProducts(order.id)).withRel("products"))
     }
   }
