@@ -1,14 +1,15 @@
 package com.fullcart.webshop.controller
 
 import com.fullcart.webshop.dto.OrderDTO
-import com.fullcart.webshop.model.Order
 import com.fullcart.webshop.model.assembler.OrderModelAssembler
+import com.fullcart.webshop.model.{Order, OrderStatus}
 import com.fullcart.webshop.repository.OrderRepository
 import com.fullcart.webshop.transformer.OrderDTOTransformer
 import javax.validation.Valid
+import org.springframework.hateoas.mediatype.problem.Problem
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.{linkTo, methodOn}
-import org.springframework.hateoas.{CollectionModel, EntityModel, IanaLinkRelations, Links}
-import org.springframework.http.ResponseEntity
+import org.springframework.hateoas._
+import org.springframework.http.{HttpHeaders, HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
 
 
@@ -51,4 +52,41 @@ class OrderController(private val repository: OrderRepository, private val assem
     ResponseEntity.ok(CollectionModel.of(collectionModel.getContent, newLinks))
   }
 
+  @DeleteMapping(Array("/orders/{id}/cancel"))
+  def cancel(@PathVariable id: Long): ResponseEntity[_ >: EntityModel[Order] with Problem <: Object] = {
+    repository.findById(id)
+      .map { order =>
+        if (order.getStatus eq OrderStatus.IN_PROGRESS) {
+          order.status = OrderStatus.CANCELLED
+          ResponseEntity.ok(assembler.toModel(repository.save(order)))
+        } else {
+          ResponseEntity
+            .status(HttpStatus.METHOD_NOT_ALLOWED)
+            .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+            .body(Problem.create
+              .withTitle("Method not allowed")
+              .withDetail("You can't cancel an order that is in the " + order.getStatus + " status"))
+        }
+      }
+      .orElse(ResponseEntity.notFound().build())
+  }
+
+  @PutMapping(Array("/orders/{id}/complete"))
+  def complete(@PathVariable id: Long): ResponseEntity[_ >: EntityModel[Order] with Problem <: Object] = {
+    repository.findById(id)
+      .map { order =>
+        if (order.getStatus eq OrderStatus.IN_PROGRESS) {
+          order.status = OrderStatus.COMPLETED
+          ResponseEntity.ok(assembler.toModel(repository.save(order)))
+        } else {
+          ResponseEntity
+            .status(HttpStatus.METHOD_NOT_ALLOWED)
+            .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+            .body(Problem.create
+              .withTitle("Method not allowed")
+              .withDetail("You can't cancel an order that is in the " + order.getStatus + " status"))
+        }
+      }
+      .orElse(ResponseEntity.notFound().build())
+  }
 }

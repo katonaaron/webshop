@@ -26,6 +26,9 @@ class Order {
   @ManyToOne
   var user: User = _
 
+  @BeanProperty
+  var status: OrderStatus = OrderStatus.IN_PROGRESS
+
   @JsonIgnore
   @ManyToMany(
     fetch = FetchType.LAZY
@@ -42,5 +45,6 @@ class Order {
     this.user = user
     this.products = products.asJava
     this.price = products.map { p => p.price }.sum
+    this.status = OrderStatus.IN_PROGRESS
   }
 }
