@@ -20,7 +20,7 @@ services:
   webshop-api:
     container_name: webshop-api
     build:
-      context: ./webshop
+      context: .
       dockerfile: Dockerfile
     image: webshop-api:latest
     restart: on-failure
