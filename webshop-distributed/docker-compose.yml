@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+
+  webshop-proxy-db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_USER=${DATABASE_USER}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+    ports:
+      - 3306:3306
+    #    expose:
+    #      - 3306
+    networks:
+      proxy:
+        aliases:
+          - db
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  webshop-proxy:
+    container_name: webshop-proxy
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODULE: proxy
+        MAIN_CLASS: com.fullcart.webshop.ProxyApplication
+    image: webshop-proxy:latest
+    restart: on-failure
+    depends_on:
+      - webshop-proxy-db
+    ports:
+      - 80:8080
+    networks:
+      - proxy
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+
+volumes:
+  mysql-data:
+
+networks:
+  proxy:
+
