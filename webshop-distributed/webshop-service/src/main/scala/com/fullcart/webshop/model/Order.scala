@@ -39,7 +39,7 @@ class Order {
   )
   var products: java.util.List[Product] = _
 
-  def this(user: User, products: Seq[Product]) {
+  def this(user: User, products: Seq[Product]) = {
     this
     this.user = user
     this.products = products.asJava
