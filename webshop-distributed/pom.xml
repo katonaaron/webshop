@@ -144,17 +144,6 @@
                     <groupId>com.google.cloud.tools</groupId>
                     <artifactId>jib-maven-plugin</artifactId>
                     <version>2.7.0</version>
-                    <configuration>
-                        <container>
-                            <environment>
-                                <DATABASE_HOST>db</DATABASE_HOST>
-                                <DATABASE_PASSWORD>1234</DATABASE_PASSWORD>
-                                <DATABASE_NAME>webshop</DATABASE_NAME>
-                                <DATABASE_PORT>3306</DATABASE_PORT>
-                                <DATABASE_ROOT_PASSWORD>1234</DATABASE_ROOT_PASSWORD>
-                            </environment>
-                        </container>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
