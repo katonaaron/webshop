@@ -1,9 +1,9 @@
 package com.fullcart.webshop.uriconverter
 
-import java.net.URI
-
 import org.springframework.data.repository.CrudRepository
 import org.springframework.web.util.UriTemplate
+
+import java.net.URI
 
 abstract class AbstractUriConverter[T](private val resourceName: String, private val repository: CrudRepository[T, Long]) extends UriConverter[T] {
 
