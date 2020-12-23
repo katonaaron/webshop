@@ -2,7 +2,7 @@ version: '3'
 
 services:
 
-  webshop-proxy-db:
+  webshop-service-db:
     image: mysql:8.0
     restart: always
     environment:
@@ -19,20 +19,14 @@ services:
         aliases:
           - db
     volumes:
-      - mysql-data:/var/lib/mysql
+      - webshop-service-db-mysql:/var/lib/mysql
 
-  webshop-proxy:
-    container_name: webshop-proxy
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        MODULE: proxy
-        MAIN_CLASS: com.fullcart.webshop.ProxyApplication
-    image: webshop-proxy:latest
+  webshop-service:
+    container_name: webshop-service
+    image: webshop-service:1.0-SNAPSHOT
     restart: on-failure
     depends_on:
-      - webshop-proxy-db
+      - webshop-service-db
     ports:
       - 80:8080
     networks:
@@ -45,7 +39,7 @@ services:
       - DATABASE_PORT=${DATABASE_PORT}
 
 volumes:
-  mysql-data:
+  webshop-service-db-mysql:
 
 networks:
   proxy:

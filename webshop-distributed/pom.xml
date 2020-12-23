@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Defines artifact information for the parent POM. -->
     <groupId>com.fullcart</groupId>
     <artifactId>webshop</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-
     <name>Full cart - Webshop API</name>
     <description>Webshop REST API, with distributed backend and microservices</description>
 
@@ -41,15 +41,16 @@
 
                 This program is distributed in the hope that it will be useful,
                 but WITHOUT ANY WARRANTY; without even the implied warranty of
-                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
                 GNU General Public License for more details.
 
                 You should have received a copy of the GNU General Public License
-                along with this program.  If not, see https://www.gnu.org/licenses/.
+                along with this program. If not, see https://www.gnu.org/licenses/.
             </comments>
         </license>
     </licenses>
 
+    <!-- Inherits from the Spring Boot Starter POM. -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -57,18 +58,26 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <!-- The modules that are part of this project. -->
     <modules>
-        <module>proxy</module>
+        <module>common</module>
+        <module>user-service</module>
+        <module>webshop-service</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Uses Java 8. -->
         <java.version>8</java.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+
+        <image>${project.artifactId}:${project.version}</image>
     </properties>
 
+    <!-- Defines dependencies common to all modules. -->
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -115,25 +124,40 @@
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>scala-maven-plugin</artifactId>
-                <version>4.4.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
+        <!-- Defines plugins that are used in the modules. -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>net.alchim31.maven</groupId>
+                    <artifactId>scala-maven-plugin</artifactId>
+                    <version>4.4.0</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>compile</goal>
+                                <goal>testCompile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>2.7.0</version>
+                    <configuration>
+                        <container>
+                            <environment>
+                                <DATABASE_HOST>db</DATABASE_HOST>
+                                <DATABASE_PASSWORD>1234</DATABASE_PASSWORD>
+                                <DATABASE_NAME>webshop</DATABASE_NAME>
+                                <DATABASE_PORT>3306</DATABASE_PORT>
+                                <DATABASE_ROOT_PASSWORD>1234</DATABASE_ROOT_PASSWORD>
+                            </environment>
+                        </container>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>

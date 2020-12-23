@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Defines artifact information for this module. -->
+    <artifactId>webshop-service</artifactId>
+    <packaging>jar</packaging>
+    <name>Full cart - Webshop API - Webshop service</name>
+
+    <!-- Inherits from the parent POM. -->
+    <parent>
+        <groupId>com.fullcart</groupId>
+        <artifactId>webshop</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <!-- Module dependencies -->
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- for the org.springframework.hateoas.SimpleIdentifiableRepresentationModelAssembler class -->
+        <dependency>
+            <groupId>com.github.spring-projects</groupId>
+            <artifactId>spring-hateoas-examples</artifactId>
+            <version>85be71b613c6a12a5380b3a36076d1bf3b78b58c</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- Module plugins -->
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- Module repositories -->
+    <repositories>
+        <!-- Repository for GitHub dependencies -->
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+</project>
