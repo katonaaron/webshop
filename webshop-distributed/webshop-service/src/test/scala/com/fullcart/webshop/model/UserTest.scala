@@ -8,6 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest
 class UserTest {
 
     @Test
-    def test() {
+    def test(): Unit = {
     }
 }

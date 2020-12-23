@@ -57,7 +57,7 @@ class OrderController(private val repository: OrderRepository, private val assem
   def cancel(@PathVariable id: Long): ResponseEntity[_ >: EntityModel[Order] with Problem <: Object] = {
     repository.findById(id)
       .map { order =>
-        if (order.getStatus eq OrderStatus.IN_PROGRESS) {
+        if (order.status eq OrderStatus.IN_PROGRESS) {
           order.status = OrderStatus.CANCELLED
           ResponseEntity.ok(assembler.toModel(repository.save(order)))
         } else {
@@ -66,7 +66,7 @@ class OrderController(private val repository: OrderRepository, private val assem
             .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
             .body(Problem.create
               .withTitle("Method not allowed")
-              .withDetail("You can't cancel an order that is in the " + order.getStatus + " status"))
+              .withDetail("You can't cancel an order that is in the " + order.status + " status"))
         }
       }
       .orElse(ResponseEntity.notFound().build())
@@ -76,7 +76,7 @@ class OrderController(private val repository: OrderRepository, private val assem
   def complete(@PathVariable id: Long): ResponseEntity[_ >: EntityModel[Order] with Problem <: Object] = {
     repository.findById(id)
       .map { order =>
-        if (order.getStatus eq OrderStatus.IN_PROGRESS) {
+        if (order.status eq OrderStatus.IN_PROGRESS) {
           order.status = OrderStatus.COMPLETED
           ResponseEntity.ok(assembler.toModel(repository.save(order)))
         } else {
@@ -85,7 +85,7 @@ class OrderController(private val repository: OrderRepository, private val assem
             .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
             .body(Problem.create
               .withTitle("Method not allowed")
-              .withDetail("You can't cancel an order that is in the " + order.getStatus + " status"))
+              .withDetail("You can't cancel an order that is in the " + order.status + " status"))
         }
       }
       .orElse(ResponseEntity.notFound().build())
