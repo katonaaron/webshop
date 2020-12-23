@@ -20,13 +20,18 @@ services:
           - db
     volumes:
       - webshop-service-db-mysql:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+      timeout: 10s
+      retries: 10
 
   webshop-service:
     container_name: webshop-service
     image: webshop-service:1.0-SNAPSHOT
     restart: on-failure
     depends_on:
-      - webshop-service-db
+      webshop-service-db:
+        condition: service_healthy
     ports:
       - 80:8080
     networks:
