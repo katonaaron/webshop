@@ -73,7 +73,7 @@ class OrderController(private val repository: OrderRepository, private val assem
   }
 
   @PutMapping(Array("/orders/{id}/complete"))
-  def complete(@PathVariable id: Long): ResponseEntity[_ >: EntityModel[Order] with Problem <: Object] = {
+  def complete(@PathVariable id: Long) = {
     repository.findById(id)
       .map { order =>
         if (order.status eq OrderStatus.IN_PROGRESS) {
