@@ -64,6 +64,7 @@
         <module>user-service</module>
         <module>webshop-service</module>
         <module>product-service</module>
+        <module>buying-service</module>
     </modules>
 
     <properties>
