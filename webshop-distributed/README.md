@@ -21,8 +21,16 @@ mentioned microservices in order to fulfill the requests.
 
 1. Create the images:
 
+Linux:
+
 ```bash
 ./mvnw package jib:dockerBuild -DskipTests
+```
+
+Windows:
+
+```bash
+mvnw.cmd package jib:dockerBuild -DskipTests
 ```
 
 2. Create and start the containers:
