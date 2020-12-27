@@ -1,6 +1,6 @@
 # Full cart - A Webshop REST API
 
-Proof-of-concept project for creating RESTful webservices using Spring Boot, HAL, and Docker.
+Proof-of-concept project for creating RESTful webservices using Spring Boot, HAL, and Docker. Another aspect is the transformation into microservices, which communicate via multi-party session types.
 
 ## 1. Single service
 
