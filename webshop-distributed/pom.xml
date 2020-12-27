@@ -63,6 +63,7 @@
         <module>common</module>
         <module>user-service</module>
         <module>webshop-service</module>
+        <module>product-service</module>
     </modules>
 
     <properties>
