@@ -2,6 +2,8 @@ version: '3'
 
 services:
 
+  # Webshop (proxy) service
+
   webshop-service-db:
     image: mysql:8.0
     restart: always
@@ -10,19 +12,17 @@ services:
       - MYSQL_DATABASE=${DATABASE_NAME}
       - MYSQL_USER=${DATABASE_USER}
       - MYSQL_PASSWORD=${DATABASE_PASSWORD}
-    ports:
-      - 3306:3306
-    #    expose:
-    #      - 3306
+    #    ports:
+    #      - 3306:3306
     networks:
-      proxy:
+      webshop-service:
         aliases:
           - db
     volumes:
       - webshop-service-db-mysql:/var/lib/mysql
     healthcheck:
       test: [ "CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
-      timeout: 10s
+      timeout: 1s
       retries: 10
 
   webshop-service:
@@ -35,7 +35,51 @@ services:
     ports:
       - 80:8080
     networks:
-      - proxy
+      - common
+      - webshop-service
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+
+
+  # User service
+
+  user-service-db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_USER=${DATABASE_USER}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+    #    ports:
+    #      - 3306:3306
+    networks:
+      user-service:
+        aliases:
+          - db
+    volumes:
+      - user-service-db-mysql:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+      timeout: 1s
+      retries: 10
+
+  user-service:
+    container_name: user-service
+    image: user-service:1.0-SNAPSHOT
+    restart: on-failure
+    depends_on:
+      user-service-db:
+        condition: service_healthy
+    #    ports:
+    #      - 81:8080
+    networks:
+      - common
+      - user-service
     environment:
       - DATABASE_HOST=db
       - DATABASE_USER=${DATABASE_USER}
@@ -45,7 +89,10 @@ services:
 
 volumes:
   webshop-service-db-mysql:
+  user-service-db-mysql:
 
 networks:
-  proxy:
+  common:
+  webshop-service:
+  user-service:
 
