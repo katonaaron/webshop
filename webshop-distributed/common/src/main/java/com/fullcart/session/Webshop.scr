@@ -1,0 +1,23 @@
+module com.fullcart.session.Webshop;
+
+data <java> "java.lang.Long" from "rt.jar" as Long;
+data <java> "com.fullcart.dto.ProductDTO" from "rt.jar" as Product;
+
+/**
+ * C = Client
+ * P = Product service
+ */
+global protocol ProductSession(role C, role P) {
+	choice at C {
+		GetOne(Long) from C to P;
+		One(Product) from P to C;
+		do ProductSession(C, P);
+    } or {
+        Create(Product) from C to P;
+		One(Product) from P to C;
+		do ProductSession(C, P);
+	} or {
+		Bye() from C to P;
+		Bye() from P to C;
+	}
+}
