@@ -7,5 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 class ApplicationConfig
 
 object WebshopServiceApplication extends App {
+  System.setProperty("spring.devtools.restart.enabled", "false")
   SpringApplication.run(classOf[ApplicationConfig])
 }
