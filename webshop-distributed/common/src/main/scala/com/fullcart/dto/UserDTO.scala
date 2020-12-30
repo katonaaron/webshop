@@ -25,7 +25,7 @@ class UserDTO(
                @BeanProperty
                var email: Option[String]
 
-             ) extends Serializable {
+             ) extends DTO[Long] with Serializable {
 
   def this() = {
     this(None, None, None, None)
