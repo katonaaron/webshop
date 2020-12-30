@@ -13,9 +13,9 @@ public final class ProductSession_C_2 extends org.scribble.runtime.statechans.Re
 		super(se);
 	}
 
-	public ProductSession_C_1 receive(P role, Ok op, org.scribble.runtime.util.Buf<? super java.util.List> arg1) throws org.scribble.main.ScribRuntimeException, java.io.IOException, ClassNotFoundException {
+	public ProductSession_C_1 receive(P role, Ok op, org.scribble.runtime.util.Buf<? super java.lang.Iterable> arg1) throws org.scribble.main.ScribRuntimeException, java.io.IOException, ClassNotFoundException {
 		org.scribble.runtime.message.ScribMessage m = super.readScribMessage(ProductSession.P);
-		arg1.val = (java.util.List) m.payload[0];
+		arg1.val = (java.lang.Iterable) m.payload[0];
 		return new ProductSession_C_1(this.se, true);
 	}
 

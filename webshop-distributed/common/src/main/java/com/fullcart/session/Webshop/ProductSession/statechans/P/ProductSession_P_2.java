@@ -15,7 +15,7 @@ public final class ProductSession_P_2 extends org.scribble.runtime.statechans.Ou
 		super(se);
 	}
 
-	public ProductSession_P_1 send(C role, Ok op, java.util.List arg0) throws org.scribble.main.ScribRuntimeException, IOException {
+	public ProductSession_P_1 send(C role, Ok op, java.lang.Iterable arg0) throws org.scribble.main.ScribRuntimeException, IOException {
 		super.writeScribMessage(role, ProductSession.Ok, arg0);
 
 		return new ProductSession_P_1(this.se, true);

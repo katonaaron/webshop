@@ -52,16 +52,16 @@ class ProductService {
     }
   }
 
-  def findAll(): java.util.List[ProductDTO] = {
+  def findAll(): java.lang.Iterable[ProductDTO] = {
     execute { client =>
-      val products: Buf[java.util.List[_]] = new Buf(null)
+      val products: Buf[java.lang.Iterable[_]] = new Buf(null)
 
       new ProductSession_C_1(client)
         .send(P, GetAll)
         .receive(P, Ok, products)
         .send(P, Bye)
 
-      products.`val`.asInstanceOf[java.util.List[ProductDTO]]
+      products.`val`.asInstanceOf[java.lang.Iterable[ProductDTO]]
     }
   }
 

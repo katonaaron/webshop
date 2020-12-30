@@ -5,5 +5,5 @@ import com.fullcart.session.Webshop.UserSession.roles.U;
 
 public interface In_U_Ok_List<__Succ extends Succ_In_U_Ok_List> {
 
-	__Succ receive(U role, Ok op, org.scribble.runtime.util.Buf<? super java.util.List> arg1) throws org.scribble.main.ScribRuntimeException, java.io.IOException, ClassNotFoundException;
+	__Succ receive(U role, Ok op, org.scribble.runtime.util.Buf<? super java.lang.Iterable> arg1) throws org.scribble.main.ScribRuntimeException, java.io.IOException, ClassNotFoundException;
 }

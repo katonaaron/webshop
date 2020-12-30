@@ -1,7 +1,7 @@
 module com.fullcart.session.Webshop;
 
 data <java> "java.lang.Long" from "rt.jar" as Long;
-data <java> "java.util.List" from "rt.jar" as List;
+data <java> "java.lang.Iterable" from "rt.jar" as List;
 data <java> "java.lang.String" from "rt.jar" as String;
 data <java> "com.fullcart.dto.ProductDTO" from "rt.jar" as Product;
 data <java> "com.fullcart.dto.UserDTO" from "rt.jar" as User;

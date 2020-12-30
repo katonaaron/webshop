@@ -7,5 +7,5 @@ import java.io.IOException;
 
 public interface Out_C_Ok_List<__Succ extends Succ_Out_C_Ok_List> {
 
-	__Succ send(C role, Ok op, java.util.List arg0) throws org.scribble.main.ScribRuntimeException, IOException;
+	__Succ send(C role, Ok op, java.lang.Iterable arg0) throws org.scribble.main.ScribRuntimeException, IOException;
 }
