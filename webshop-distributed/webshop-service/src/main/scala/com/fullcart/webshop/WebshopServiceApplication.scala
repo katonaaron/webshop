@@ -1,17 +1,11 @@
 package com.fullcart.webshop
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import com.fullcart.dto.ProductDTO
+import com.fullcart.dto.{ProductDTO, ProductDTOMixin, UserDTO, UserDTOMixin}
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
-
-trait IdMixin {
-  @JsonDeserialize(contentAs = classOf[Long])
-  def id: Option[java.lang.Long]
-}
 
 @SpringBootApplication
 class ApplicationConfig {
@@ -21,7 +15,8 @@ class ApplicationConfig {
     val objectMapper = new ObjectMapper()
     objectMapper
       .registerModule(DefaultScalaModule)
-      .addMixIn(classOf[ProductDTO], classOf[IdMixin])
+      .addMixIn(classOf[ProductDTO], classOf[ProductDTOMixin])
+      .addMixIn(classOf[UserDTO], classOf[UserDTOMixin])
     objectMapper
   }
 }

@@ -1,9 +1,15 @@
 package com.fullcart.dto
 
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import org.springframework.hateoas.server.core.Relation
 
 import scala.beans.BeanProperty
+
+trait ProductDTOMixin {
+  @JsonDeserialize(contentAs = classOf[Long])
+  def id: Option[java.lang.Long]
+}
 
 
 @Relation(value = "product", collectionRelation = "products")
