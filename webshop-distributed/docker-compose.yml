@@ -43,6 +43,8 @@ services:
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_NAME=${DATABASE_NAME}
       - DATABASE_PORT=${DATABASE_PORT}
+      - PRODUCT_SERVICE_HOST=product-service
+      - PRODUCT_SERVICE_PORT=80
 
 
   # User service
@@ -118,8 +120,6 @@ services:
     depends_on:
       product-service-db:
         condition: service_healthy
-    #    ports:
-    #      - 82:8080
     networks:
       - common
       - product-service
@@ -129,6 +129,7 @@ services:
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_NAME=${DATABASE_NAME}
       - DATABASE_PORT=${DATABASE_PORT}
+      - PRODUCT_SERVICE_PORT=80
 
 
   # Buying service
