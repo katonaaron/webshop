@@ -1,35 +1,69 @@
 package com.fullcart.session.Webshop.ProductSession.statechans.C;
 
 import com.fullcart.session.Webshop.ProductSession.ProductSession;
-import com.fullcart.session.Webshop.ProductSession.ops.One;
 import com.fullcart.session.Webshop.ProductSession.roles.C;
 import com.fullcart.session.Webshop.ProductSession.roles.P;
-import com.fullcart.session.Webshop.ProductSession.statechans.C.ioifaces.Receive_C_P_One_Product;
+import com.fullcart.session.Webshop.ProductSession.statechans.C.ioifaces.Branch_C_P_NotFound__P_Ok_Product;
+import com.fullcart.session.Webshop.ProductSession.statechans.C.ioifaces.Handle_C_P_NotFound__P_Ok_Product;
+import com.fullcart.session.Webshop.ProductSession.statechans.C.ioifaces.Succ_In_P_NotFound;
+import com.fullcart.session.Webshop.ProductSession.statechans.C.ioifaces.Succ_In_P_Ok_Product;
 
-public final class ProductSession_C_3 extends org.scribble.runtime.statechans.ReceiveSocket<ProductSession, C> implements Receive_C_P_One_Product<ProductSession_C_1> {
+import java.io.IOException;
+
+public final class ProductSession_C_3 extends org.scribble.runtime.statechans.BranchSocket<ProductSession, C> implements Branch_C_P_NotFound__P_Ok_Product<ProductSession_C_1, ProductSession_C_1> {
 	public static final ProductSession_C_3 cast = null;
 
 	protected ProductSession_C_3(org.scribble.runtime.session.SessionEndpoint<ProductSession, C> se, boolean dummy) {
 		super(se);
 	}
 
-	public ProductSession_C_1 receive(P role, One op, org.scribble.runtime.util.Buf<? super com.fullcart.dto.ProductDTO> arg1) throws org.scribble.main.ScribRuntimeException, java.io.IOException, ClassNotFoundException {
+	@Override
+	public ProductSession_C_3_Cases branch(P role) throws org.scribble.main.ScribRuntimeException, IOException, ClassNotFoundException {
 		org.scribble.runtime.message.ScribMessage m = super.readScribMessage(ProductSession.P);
-		arg1.val = (com.fullcart.dto.ProductDTO) m.payload[0];
-		return new ProductSession_C_1(this.se, true);
+		Branch_C_P_NotFound__P_Ok_Product_Enum openum;
+		if (m.op.equals(ProductSession.Ok)) {
+			openum = Branch_C_P_NotFound__P_Ok_Product_Enum.Ok;
+		}
+		else if (m.op.equals(ProductSession.NotFound)) {
+			openum = Branch_C_P_NotFound__P_Ok_Product_Enum.NotFound;
+		}
+		else {
+			throw new RuntimeException("Won't get here: " + m.op);
+		}
+		return new ProductSession_C_3_Cases(this.se, true, openum, m);
 	}
 
-	public ProductSession_C_1 async(P role, One op, org.scribble.runtime.util.Buf<ProductSession_C_3_Future> arg) throws org.scribble.main.ScribRuntimeException {
-		arg.val = new ProductSession_C_3_Future(super.getFuture(ProductSession.P));
-		return new ProductSession_C_1(this.se, true);
+	public void branch(P role, ProductSession_C_3_Handler handler) throws org.scribble.main.ScribRuntimeException, IOException, ClassNotFoundException {
+		branch(role, (Handle_C_P_NotFound__P_Ok_Product<ProductSession_C_1, ProductSession_C_1>) handler);
 	}
 
-	public boolean isDone() {
-		return super.isDone(ProductSession.P);
+	@Override
+	public void branch(P role, Handle_C_P_NotFound__P_Ok_Product<ProductSession_C_1, ProductSession_C_1> handler) throws org.scribble.main.ScribRuntimeException, IOException, ClassNotFoundException {
+		org.scribble.runtime.message.ScribMessage m = super.readScribMessage(ProductSession.P);
+		if (m.op.equals(ProductSession.Ok)) {
+			handler.receive(new ProductSession_C_1(this.se, true), ProductSession.Ok, new org.scribble.runtime.util.Buf<>((com.fullcart.dto.ProductDTO) m.payload[0]));
+		}
+		else
+		if (m.op.equals(ProductSession.NotFound)) {
+			handler.receive(new ProductSession_C_1(this.se, true), ProductSession.NotFound);
+		}
+		else {
+			throw new RuntimeException("Won't get here: " + m.op);
+		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public ProductSession_C_1 async(P role, One op) throws org.scribble.main.ScribRuntimeException {
-		return async(ProductSession.P, op, (org.scribble.runtime.util.Buf<ProductSession_C_3_Future>) this.se.gc);
+	@Override
+	public void handle(P role, Handle_C_P_NotFound__P_Ok_Product<Succ_In_P_NotFound, Succ_In_P_Ok_Product> handler) throws org.scribble.main.ScribRuntimeException, IOException, ClassNotFoundException {
+		org.scribble.runtime.message.ScribMessage m = super.readScribMessage(ProductSession.P);
+		if (m.op.equals(ProductSession.Ok)) {
+			handler.receive(new ProductSession_C_1(this.se, true), ProductSession.Ok, new org.scribble.runtime.util.Buf<>((com.fullcart.dto.ProductDTO) m.payload[0]));
+		}
+		else
+		if (m.op.equals(ProductSession.NotFound)) {
+			handler.receive(new ProductSession_C_1(this.se, true), ProductSession.NotFound);
+		}
+		else {
+			throw new RuntimeException("Won't get here: " + m.op);
+		}
 	}
 }

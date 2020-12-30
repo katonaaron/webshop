@@ -1,18 +1,16 @@
 package com.fullcart.product.controller
 
 import com.fullcart.dto.ProductDTO
-import com.fullcart.product.model.Product
-import com.fullcart.product.repository.ProductRepository
+import com.fullcart.product.service.ProductService
 import com.fullcart.session.AbstractController
 import com.fullcart.session.Webshop.ProductSession.ProductSession._
-import com.fullcart.session.Webshop.ProductSession.statechans.P.ioifaces.Branch_P_C_Bye__C_Create_Product__C_GetOne_Long.{Branch_P_C_Bye__C_Create_Product__C_GetOne_Long_Enum => Ops}
 import com.fullcart.session.Webshop.ProductSession.statechans.P.{ProductSession_P_1, ProductSession_P_1_Cases}
 import com.fullcart.session.Webshop.ProductSession.{ProductSession, roles}
 import org.scribble.runtime.util.Buf
 import org.springframework.stereotype.Component
 
 @Component
-class ProductController(private val productRepository: ProductRepository) extends AbstractController[ProductSession, roles.P, ProductSession_P_1] {
+class ProductController(private val productService: ProductService) extends AbstractController[ProductSession, roles.P, ProductSession_P_1] {
 
   override def handleRequests(initialState: ProductSession_P_1): Unit = {
     var state = initialState
@@ -20,39 +18,108 @@ class ProductController(private val productRepository: ProductRepository) extend
     while (true) {
       val cases = state.branch(C)
 
-      cases.op match {
-        case Ops.GetOne =>
+      cases.op.name() match {
+        case "GetAll" =>
+          state = handleGetAll(cases)
+        case "GetOne" =>
           state = handleGetOne(cases)
-        case Ops.Create =>
+        case "Create" =>
           state = handleCreate(cases)
-        case Ops.Bye =>
+        case "Update" =>
+          state = handleUpdate(cases)
+        case "Replace" =>
+          state = handleReplace(cases)
+        case "Delete" =>
+          state = handleDelete(cases)
+        case "Bye" =>
           handleBye(cases)
           return
       }
     }
   }
 
-  private def handleCreate(state: ProductSession_P_1_Cases): ProductSession_P_1 = {
-    val dto = new Buf[ProductDTO]()
-    val newState = state.receive(Create, dto)
-
-    val product = productRepository.save(Product.fromDto(dto.`val`))
-
-    newState.send(C, One, Product.toDto(product))
-  }
+  private def handleGetAll(state: ProductSession_P_1_Cases): ProductSession_P_1 =
+    state
+      .receive(C, GetAll)
+      .send(C, Ok, productService.findAll())
 
   private def handleGetOne(state: ProductSession_P_1_Cases): ProductSession_P_1 = {
     val productId = new Buf[java.lang.Long]()
     val newState = state.receive(GetOne, productId)
 
-    val product = productRepository.findById(productId.`val`).orElse(null)
-
-    newState.send(C, One, Product.toDto(product))
+    productService
+      .findById(productId.`val`)
+    match {
+      case Some(product) => newState.send(C, Ok, product)
+      case _ => newState.send(C, NotFound)
+    }
   }
+
+  private def handleCreate(state: ProductSession_P_1_Cases): ProductSession_P_1 = {
+    val receivedProduct = new Buf[ProductDTO]()
+    val newState = state.receive(Create, receivedProduct)
+
+    productService
+      .create(receivedProduct.`val`)
+    match {
+      case Left(error) => newState.send(C, Err, error)
+      case Right(product) => newState.send(C, Ok, product)
+    }
+  }
+
+  private def handleUpdate(state: ProductSession_P_1_Cases): ProductSession_P_1 = {
+    val productId = new Buf[java.lang.Long]()
+    val receivedProduct = new Buf[ProductDTO]()
+    val newState = state.receive(Update, productId, receivedProduct)
+
+    productService
+      .update(productId.`val`, receivedProduct.`val`)
+    match {
+      case None => newState.send(C, NotFound)
+      case Some(Left(error)) => newState.send(C, Err, error)
+      case Some(Right(product)) => newState.send(C, Ok, product)
+    }
+  }
+
+  private def handleReplace(state: ProductSession_P_1_Cases): ProductSession_P_1 = {
+    val productId = new Buf[java.lang.Long]()
+    val receivedProduct = new Buf[ProductDTO]()
+    val newState = state.receive(Replace, productId, receivedProduct)
+
+    val id = productId.`val`
+    val newProduct = receivedProduct.`val`
+
+    productService
+      .findById(id)
+    match {
+      case None => productService.create(newProduct)
+      match {
+        case Left(error) => newState.send(C, Err, error)
+        case Right(product) => newState.send(C, Created, product)
+      }
+      case Some(_) => productService.replace(id, newProduct)
+      match {
+        case Left(error) => newState.send(C, Err, error)
+        case Right(product) => newState.send(C, Ok, product)
+      }
+    }
+  }
+
+
+  private def handleDelete(state: ProductSession_P_1_Cases): ProductSession_P_1 = {
+    val productId = new Buf[java.lang.Long]()
+    val newState = state.receive(Delete, productId)
+
+    if (productService.deleteById(productId.`val`)) {
+      newState.send(C, Ok)
+    } else {
+      newState.send(C, NotFound)
+    }
+  }
+
 
   private def handleBye(state: ProductSession_P_1_Cases): Unit = {
     state
       .receive(Bye)
-      .send(C, Bye)
   }
 }
