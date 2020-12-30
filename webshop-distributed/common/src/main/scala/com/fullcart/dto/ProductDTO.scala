@@ -9,7 +9,7 @@ import scala.beans.BeanProperty
 @Relation(value = "product", collectionRelation = "products")
 class ProductDTO(
                   @BeanProperty
-                  var id: Option[java.lang.Long],
+                  var id: Option[Long],
 
                   @BeanProperty
                   var price: Option[Double],

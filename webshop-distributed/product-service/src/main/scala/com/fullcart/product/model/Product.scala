@@ -32,7 +32,7 @@ class Product {
 object Product {
 
   def fromDto(dto: ProductDTO): Either[String, Product] = {
-    fromDto(dto.id.getOrElse(0L).asInstanceOf[Long], dto)
+    fromDto(dto.id.getOrElse(0L), dto)
   }
 
   def fromDto(id: Long, dto: ProductDTO): Either[String, Product] = {
