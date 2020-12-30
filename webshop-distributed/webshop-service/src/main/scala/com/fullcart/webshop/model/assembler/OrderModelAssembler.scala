@@ -1,7 +1,8 @@
 package com.fullcart.webshop.model.assembler
 
+import com.fullcart.common.model.OrderStatus
 import com.fullcart.webshop.controller.{OrderController, ProductController, RootController, UserController}
-import com.fullcart.webshop.model.{Order, OrderStatus}
+import com.fullcart.webshop.model.Order
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.{linkTo, methodOn}
 import org.springframework.hateoas.{CollectionModel, EntityModel, SimpleIdentifiableRepresentationModelAssembler}
 import org.springframework.stereotype.Component
@@ -16,9 +17,9 @@ class OrderModelAssembler extends SimpleIdentifiableRepresentationModelAssembler
 
     resource.add(linkTo(methodOn(classOf[UserController]).findUser(order.id)).withRel("user"))
 
-    if (order.products != null && !order.products.isEmpty) {
-      resource.add(linkTo(methodOn(classOf[ProductController]).findProducts(order.id)).withRel("products"))
-    }
+    //    if (order.products != null && !order.products.isEmpty) {
+    //      resource.add(linkTo(methodOn(classOf[ProductController]).findProducts(order.id)).withRel("products"))
+    //    }
 
     if (order.status == OrderStatus.IN_PROGRESS) {
       resource.add(linkTo(methodOn(classOf[OrderController]).cancel(order.id)).withRel("cancel"))

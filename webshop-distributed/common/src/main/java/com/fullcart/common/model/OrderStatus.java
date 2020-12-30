@@ -1,4 +1,4 @@
-package com.fullcart.webshop.model;
+package com.fullcart.common.model;
 
 public enum OrderStatus {
     IN_PROGRESS,

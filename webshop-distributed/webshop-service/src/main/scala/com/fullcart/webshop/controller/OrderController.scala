@@ -1,8 +1,9 @@
 package com.fullcart.webshop.controller
 
+import com.fullcart.common.model.OrderStatus
 import com.fullcart.webshop.dto.OrderDTO
+import com.fullcart.webshop.model.Order
 import com.fullcart.webshop.model.assembler.OrderModelAssembler
-import com.fullcart.webshop.model.{Order, OrderStatus}
 import com.fullcart.webshop.repository.OrderRepository
 import com.fullcart.webshop.transformer.OrderDTOTransformer
 import org.springframework.hateoas._

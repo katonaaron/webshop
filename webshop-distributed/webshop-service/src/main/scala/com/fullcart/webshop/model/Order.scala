@@ -1,6 +1,7 @@
 package com.fullcart.webshop.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fullcart.common.model.OrderStatus
 
 import java.util.{Calendar, Date}
 import javax.persistence._
