@@ -89,19 +89,18 @@ class ProductController(private val productService: ProductService) extends Abst
     val id = productId.`val`
     val newProduct = receivedProduct.`val`
 
-    productService
+    val isCreated = productService
       .findById(id)
+      .isEmpty
+
+    productService.replace(id, newProduct)
     match {
-      case None => productService.create(newProduct)
-      match {
-        case Left(error) => newState.send(C, Err, error)
-        case Right(product) => newState.send(C, Created, product)
-      }
-      case Some(_) => productService.replace(id, newProduct)
-      match {
-        case Left(error) => newState.send(C, Err, error)
-        case Right(product) => newState.send(C, Ok, product)
-      }
+      case Left(error) => newState.send(C, Err, error)
+      case Right(product) =>
+        if (isCreated)
+          newState.send(C, Created, product)
+        else
+          newState.send(C, Ok, product)
     }
   }
 
