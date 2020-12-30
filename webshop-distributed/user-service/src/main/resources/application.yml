@@ -7,9 +7,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  main:
+    web-application-type: none
 
 server:
   error:
     include-message: always
     include-binding-errors: always
+
+fullcart:
+  user-service:
+    port: ${USER_SERVICE_PORT}
 

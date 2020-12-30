@@ -17,4 +17,7 @@ fullcart:
   product-service:
     host: ${PRODUCT_SERVICE_HOST}
     port: ${PRODUCT_SERVICE_PORT}
+  user-service:
+    host: ${USER_SERVICE_HOST}
+    port: ${USER_SERVICE_PORT}
 
