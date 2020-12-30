@@ -65,3 +65,61 @@ global protocol ProductSession(role C, role P) {
         Bye() from C to P;
     }
 }
+
+/**
+ * C = Client
+ * U = User service
+ */
+global protocol UserSession(role C, role U) {
+    choice at C {
+        GetAll() from C to U;
+        Ok(List) from U to C;
+        do UserSession(C, U);
+    } or {
+        GetOne(Long) from C to U;
+        choice at U {
+            Ok(User) from U to C;
+        } or {
+            NotFound() from U to C;
+        }
+        do UserSession(C, U);
+    } or {
+        Create(User) from C to U;
+        choice at U {
+            Ok(User) from U to C;
+        } or {
+            Err(String) from U to C;
+        }
+        do UserSession(C, U);
+    } or {
+        Update(Long, User) from C to U;
+        choice at U {
+            Ok(User) from U to C;
+        } or {
+            NotFound() from U to C;
+        } or {
+            Err(String) from U to C;
+        }
+        do UserSession(C, U);
+    } or {
+        Replace(Long, User) from C to U;
+        choice at U {
+            Ok(User) from U to C;
+        } or {
+            Created(User) from U to C;
+        } or {
+            Err(String) from U to C;
+        }
+        do UserSession(C, U);
+    } or {
+        Delete(Long) from C to U;
+        choice at U {
+            Ok() from U to C;
+        } or {
+            NotFound() from U to C;
+        }
+        do UserSession(C, U);
+    } or {
+        Bye() from C to U;
+    }
+}

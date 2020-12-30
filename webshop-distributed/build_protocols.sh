@@ -7,6 +7,7 @@ imagePath=../doc/img/protocols/
 
 declare -A protocols=(
   ['ProductSession']="C P"
+  ['UserSession']="C U"
 )
 
 function verify() {
