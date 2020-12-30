@@ -4,7 +4,6 @@ import com.fullcart.dto.ProductDTO
 import com.fullcart.session.Webshop.ProductSession.ProductSession._
 import com.fullcart.session.Webshop.ProductSession.statechans.C.ProductSession_C_1
 import com.fullcart.session.Webshop.ProductSession.{ProductSession, roles}
-import com.fullcart.webshop.service.ProductService.Logger
 import org.scribble.runtime.message.ObjectStreamFormatter
 import org.scribble.runtime.net.SocketChannelEndpoint
 import org.scribble.runtime.session.MPSTEndpoint
@@ -22,6 +21,8 @@ class ProductService {
 
   @Value("${fullcart.product-service.port}")
   private val Port: Int = 0
+
+  private val Logger = LoggerFactory.getLogger(classOf[ProductService])
 
   def findOne(id: Long): (HttpStatus, Option[ProductDTO]) = {
     execute { client =>
@@ -206,9 +207,4 @@ class ProductService {
       )
     }
   }
-}
-
-@Component
-object ProductService {
-  private val Logger = LoggerFactory.getLogger(classOf[ProductService])
 }
