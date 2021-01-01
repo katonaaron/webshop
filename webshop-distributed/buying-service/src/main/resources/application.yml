@@ -15,12 +15,13 @@ server:
     include-binding-errors: always
 
 fullcart:
-  buying-service:
-    port: ${BUYING_SERVICE_PORT}
-  product-service:
-    host: ${PRODUCT_SERVICE_HOST}
-    port: ${PRODUCT_SERVICE_PORT}
-  user-service:
-    host: ${USER_SERVICE_HOST}
-    port: ${USER_SERVICE_PORT}
+  buying-session:
+    buying-service:
+      port: ${BUYING_PORT}
+    product-service:
+      host: ${BUYING_PRODUCT_SERVICE_HOST}
+      port: ${BUYING_PRODUCT_SERVICE_PORT}
+    user-service:
+      host: ${BUYING_USER_SERVICE_HOST}
+      port: ${BUYING_USER_SERVICE_PORT}
 

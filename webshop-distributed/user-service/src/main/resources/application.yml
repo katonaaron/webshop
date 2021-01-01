@@ -16,6 +16,10 @@ server:
     include-binding-errors: always
 
 fullcart:
-  user-service:
-    port: ${USER_SERVICE_PORT}
+  user-session:
+    user-service:
+      port: ${USER_PORT}
+  buying-session:
+    user-service:
+      port: ${BUYING_PORT}
 
