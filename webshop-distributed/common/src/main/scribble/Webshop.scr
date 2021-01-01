@@ -134,7 +134,7 @@ global protocol BuyingSession (role C, role P, role U, role B)
  {
     choice at C {
         GetAll() from C to B;
-        All(List) from B to C;
+        Ok(List) from B to C;
         do BuyingSession(C, P, U, B);
     } or {
         GetOne(Long) from C to B;
@@ -145,35 +145,43 @@ global protocol BuyingSession (role C, role P, role U, role B)
         }
         do BuyingSession(C, P, U, B);
     } or {
-         Create(Long, List) from C to B; // User id and List of product ids
-         GetOne(Long) from B to U;
-         choice at U {
-             Ok(User) from U to B;
-             GetAll(List) from B to P;
-             choice at P {
-                 Ok(List) from P to B;
-                 Ok(Order) from B to C;
+         Create(Order) from C to B;
+         choice at B {
+             GetOne(Long) from B to U;
+             choice at U {
+                 Ok(User) from U to B;
+                 GetAll(List) from B to P;
+                 choice at P {
+                     Ok(List) from P to B;
+                     Ok(Order) from B to C;
+                 } or {
+                     NotFound(Long) from P to B;
+                     ProductNotFound(Long) from B to C;
+                 }
              } or {
-                 NotFound() from P to B;
-                 ProductNotFound() from B to C;
+                 NotFound(Long) from U to B;
+                 UserNotFound(Long) from B to C;
              }
          } or {
-             NotFound() from U to B;
-             UserNotFound() from B to C;
-         }
-         do BuyingSession(C, P, U, B);
-     } or {
-         Cancel(Long, Order) from C to B;
-         choice at B {
-             Ok(Order) from B to C;
-         } or {
-             NotAllowed() from B to C;
+            Err(String) from B to C;
          }
          do BuyingSession(C, P, U, B);
     } or {
-        Complete(Long, Order) from C to B;
+        Cancel(Long) from C to B;
         choice at B {
             Ok(Order) from B to C;
+        } or {
+            NotFound() from B to C;
+        } or {
+            NotAllowed() from B to C;
+        }
+        do BuyingSession(C, P, U, B);
+    } or {
+        Complete(Long) from C to B;
+        choice at B {
+            Ok(Order) from B to C;
+        } or {
+            NotFound() from B to C;
         } or {
             NotAllowed() from B to C;
         }

@@ -3,7 +3,7 @@ package com.fullcart.session.Webshop.BuyingSession.statechans.P.ioifaces;
 import com.fullcart.session.Webshop.BuyingSession.roles.B;
 import com.fullcart.session.Webshop.BuyingSession.statechans.P.BuyingSession_P_1;
 
-public interface Branch_P_B_Bye__B_GetAll_List<__Succ1 extends Succ_In_B_Bye, __Succ2 extends Succ_In_B_GetAll_List> extends Succ_Out_B_Ok_List, Succ_Out_B_NotFound {
+public interface Branch_P_B_Bye__B_GetAll_List<__Succ1 extends Succ_In_B_Bye, __Succ2 extends Succ_In_B_GetAll_List> extends Succ_Out_B_Ok_List, Succ_Out_B_NotFound_Long {
 	Branch_P_B_Bye__B_GetAll_List<?, ?> cast = null;
 
 	Case_P_B_Bye__B_GetAll_List<__Succ1, __Succ2> branch(B role) throws org.scribble.main.ScribRuntimeException, java.io.IOException, ClassNotFoundException;

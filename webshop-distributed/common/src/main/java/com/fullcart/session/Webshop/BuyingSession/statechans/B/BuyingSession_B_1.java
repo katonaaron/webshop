@@ -7,7 +7,7 @@ import com.fullcart.session.Webshop.BuyingSession.statechans.B.ioifaces.*;
 
 import java.io.IOException;
 
-public final class BuyingSession_B_1 extends org.scribble.runtime.statechans.BranchSocket<BuyingSession, B> implements Branch_B_C_Bye__C_Cancel_Long_Order__C_Complete_Long_Order__C_Create_Long_List__C_GetAll__C_GetOne_Long<BuyingSession_B_13, BuyingSession_B_11, BuyingSession_B_12, BuyingSession_B_4, BuyingSession_B_2, BuyingSession_B_3> {
+public final class BuyingSession_B_1 extends org.scribble.runtime.statechans.BranchSocket<BuyingSession, B> implements Branch_B_C_Bye__C_Cancel_Long__C_Complete_Long__C_Create_Order__C_GetAll__C_GetOne_Long<BuyingSession_B_13, BuyingSession_B_11, BuyingSession_B_12, BuyingSession_B_4, BuyingSession_B_2, BuyingSession_B_3> {
 	public static final BuyingSession_B_1 cast = null;
 
 	protected BuyingSession_B_1(org.scribble.runtime.session.SessionEndpoint<BuyingSession, B> se, boolean dummy) {
@@ -22,24 +22,24 @@ public final class BuyingSession_B_1 extends org.scribble.runtime.statechans.Bra
 	@Override
 	public BuyingSession_B_1_Cases branch(C role) throws org.scribble.main.ScribRuntimeException, IOException, ClassNotFoundException {
 		org.scribble.runtime.message.ScribMessage m = super.readScribMessage(BuyingSession.C);
-		Branch_B_C_Bye__C_Cancel_Long_Order__C_Complete_Long_Order__C_Create_Long_List__C_GetAll__C_GetOne_Long_Enum openum;
+		Branch_B_C_Bye__C_Cancel_Long__C_Complete_Long__C_Create_Order__C_GetAll__C_GetOne_Long_Enum openum;
 		if (m.op.equals(BuyingSession.GetAll)) {
-			openum = Branch_B_C_Bye__C_Cancel_Long_Order__C_Complete_Long_Order__C_Create_Long_List__C_GetAll__C_GetOne_Long_Enum.GetAll;
+			openum = Branch_B_C_Bye__C_Cancel_Long__C_Complete_Long__C_Create_Order__C_GetAll__C_GetOne_Long_Enum.GetAll;
 		}
 		else if (m.op.equals(BuyingSession.GetOne)) {
-			openum = Branch_B_C_Bye__C_Cancel_Long_Order__C_Complete_Long_Order__C_Create_Long_List__C_GetAll__C_GetOne_Long_Enum.GetOne;
+			openum = Branch_B_C_Bye__C_Cancel_Long__C_Complete_Long__C_Create_Order__C_GetAll__C_GetOne_Long_Enum.GetOne;
 		}
 		else if (m.op.equals(BuyingSession.Create)) {
-			openum = Branch_B_C_Bye__C_Cancel_Long_Order__C_Complete_Long_Order__C_Create_Long_List__C_GetAll__C_GetOne_Long_Enum.Create;
+			openum = Branch_B_C_Bye__C_Cancel_Long__C_Complete_Long__C_Create_Order__C_GetAll__C_GetOne_Long_Enum.Create;
 		}
 		else if (m.op.equals(BuyingSession.Cancel)) {
-			openum = Branch_B_C_Bye__C_Cancel_Long_Order__C_Complete_Long_Order__C_Create_Long_List__C_GetAll__C_GetOne_Long_Enum.Cancel;
+			openum = Branch_B_C_Bye__C_Cancel_Long__C_Complete_Long__C_Create_Order__C_GetAll__C_GetOne_Long_Enum.Cancel;
 		}
 		else if (m.op.equals(BuyingSession.Complete)) {
-			openum = Branch_B_C_Bye__C_Cancel_Long_Order__C_Complete_Long_Order__C_Create_Long_List__C_GetAll__C_GetOne_Long_Enum.Complete;
+			openum = Branch_B_C_Bye__C_Cancel_Long__C_Complete_Long__C_Create_Order__C_GetAll__C_GetOne_Long_Enum.Complete;
 		}
 		else if (m.op.equals(BuyingSession.Bye)) {
-			openum = Branch_B_C_Bye__C_Cancel_Long_Order__C_Complete_Long_Order__C_Create_Long_List__C_GetAll__C_GetOne_Long_Enum.Bye;
+			openum = Branch_B_C_Bye__C_Cancel_Long__C_Complete_Long__C_Create_Order__C_GetAll__C_GetOne_Long_Enum.Bye;
 		}
 		else {
 			throw new RuntimeException("Won't get here: " + m.op);
@@ -48,11 +48,11 @@ public final class BuyingSession_B_1 extends org.scribble.runtime.statechans.Bra
 	}
 
 	public void branch(C role, BuyingSession_B_1_Handler handler) throws org.scribble.main.ScribRuntimeException, IOException, ClassNotFoundException {
-		branch(role, (Handle_B_C_Bye__C_Cancel_Long_Order__C_Complete_Long_Order__C_Create_Long_List__C_GetAll__C_GetOne_Long<BuyingSession_B_13, BuyingSession_B_11, BuyingSession_B_12, BuyingSession_B_4, BuyingSession_B_2, BuyingSession_B_3>) handler);
+		branch(role, (Handle_B_C_Bye__C_Cancel_Long__C_Complete_Long__C_Create_Order__C_GetAll__C_GetOne_Long<BuyingSession_B_13, BuyingSession_B_11, BuyingSession_B_12, BuyingSession_B_4, BuyingSession_B_2, BuyingSession_B_3>) handler);
 	}
 
 	@Override
-	public void branch(C role, Handle_B_C_Bye__C_Cancel_Long_Order__C_Complete_Long_Order__C_Create_Long_List__C_GetAll__C_GetOne_Long<BuyingSession_B_13, BuyingSession_B_11, BuyingSession_B_12, BuyingSession_B_4, BuyingSession_B_2, BuyingSession_B_3> handler) throws org.scribble.main.ScribRuntimeException, IOException, ClassNotFoundException {
+	public void branch(C role, Handle_B_C_Bye__C_Cancel_Long__C_Complete_Long__C_Create_Order__C_GetAll__C_GetOne_Long<BuyingSession_B_13, BuyingSession_B_11, BuyingSession_B_12, BuyingSession_B_4, BuyingSession_B_2, BuyingSession_B_3> handler) throws org.scribble.main.ScribRuntimeException, IOException, ClassNotFoundException {
 		org.scribble.runtime.message.ScribMessage m = super.readScribMessage(BuyingSession.C);
 		if (m.op.equals(BuyingSession.GetAll)) {
 			handler.receive(new BuyingSession_B_2(this.se, true), BuyingSession.GetAll);
@@ -63,15 +63,15 @@ public final class BuyingSession_B_1 extends org.scribble.runtime.statechans.Bra
 		}
 		else
 		if (m.op.equals(BuyingSession.Create)) {
-			handler.receive(new BuyingSession_B_4(this.se, true), BuyingSession.Create, new org.scribble.runtime.util.Buf<>((java.lang.Long) m.payload[0]), new org.scribble.runtime.util.Buf<>((java.lang.Iterable) m.payload[1]));
+			handler.receive(new BuyingSession_B_4(this.se, true), BuyingSession.Create, new org.scribble.runtime.util.Buf<>((com.fullcart.dto.OrderDTO) m.payload[0]));
 		}
 		else
 		if (m.op.equals(BuyingSession.Cancel)) {
-			handler.receive(new BuyingSession_B_11(this.se, true), BuyingSession.Cancel, new org.scribble.runtime.util.Buf<>((java.lang.Long) m.payload[0]), new org.scribble.runtime.util.Buf<>((com.fullcart.dto.OrderDTO) m.payload[1]));
+			handler.receive(new BuyingSession_B_11(this.se, true), BuyingSession.Cancel, new org.scribble.runtime.util.Buf<>((java.lang.Long) m.payload[0]));
 		}
 		else
 		if (m.op.equals(BuyingSession.Complete)) {
-			handler.receive(new BuyingSession_B_12(this.se, true), BuyingSession.Complete, new org.scribble.runtime.util.Buf<>((java.lang.Long) m.payload[0]), new org.scribble.runtime.util.Buf<>((com.fullcart.dto.OrderDTO) m.payload[1]));
+			handler.receive(new BuyingSession_B_12(this.se, true), BuyingSession.Complete, new org.scribble.runtime.util.Buf<>((java.lang.Long) m.payload[0]));
 		}
 		else
 		if (m.op.equals(BuyingSession.Bye)) {
@@ -83,7 +83,7 @@ public final class BuyingSession_B_1 extends org.scribble.runtime.statechans.Bra
 	}
 
 	@Override
-	public void handle(C role, Handle_B_C_Bye__C_Cancel_Long_Order__C_Complete_Long_Order__C_Create_Long_List__C_GetAll__C_GetOne_Long<Succ_In_C_Bye, Succ_In_C_Cancel_Long_Order, Succ_In_C_Complete_Long_Order, Succ_In_C_Create_Long_List, Succ_In_C_GetAll, Succ_In_C_GetOne_Long> handler) throws org.scribble.main.ScribRuntimeException, IOException, ClassNotFoundException {
+	public void handle(C role, Handle_B_C_Bye__C_Cancel_Long__C_Complete_Long__C_Create_Order__C_GetAll__C_GetOne_Long<Succ_In_C_Bye, Succ_In_C_Cancel_Long, Succ_In_C_Complete_Long, Succ_In_C_Create_Order, Succ_In_C_GetAll, Succ_In_C_GetOne_Long> handler) throws org.scribble.main.ScribRuntimeException, IOException, ClassNotFoundException {
 		org.scribble.runtime.message.ScribMessage m = super.readScribMessage(BuyingSession.C);
 		if (m.op.equals(BuyingSession.GetAll)) {
 			handler.receive(new BuyingSession_B_2(this.se, true), BuyingSession.GetAll);
@@ -94,15 +94,15 @@ public final class BuyingSession_B_1 extends org.scribble.runtime.statechans.Bra
 		}
 		else
 		if (m.op.equals(BuyingSession.Create)) {
-			handler.receive(new BuyingSession_B_4(this.se, true), BuyingSession.Create, new org.scribble.runtime.util.Buf<>((java.lang.Long) m.payload[0]), new org.scribble.runtime.util.Buf<>((java.lang.Iterable) m.payload[1]));
+			handler.receive(new BuyingSession_B_4(this.se, true), BuyingSession.Create, new org.scribble.runtime.util.Buf<>((com.fullcart.dto.OrderDTO) m.payload[0]));
 		}
 		else
 		if (m.op.equals(BuyingSession.Cancel)) {
-			handler.receive(new BuyingSession_B_11(this.se, true), BuyingSession.Cancel, new org.scribble.runtime.util.Buf<>((java.lang.Long) m.payload[0]), new org.scribble.runtime.util.Buf<>((com.fullcart.dto.OrderDTO) m.payload[1]));
+			handler.receive(new BuyingSession_B_11(this.se, true), BuyingSession.Cancel, new org.scribble.runtime.util.Buf<>((java.lang.Long) m.payload[0]));
 		}
 		else
 		if (m.op.equals(BuyingSession.Complete)) {
-			handler.receive(new BuyingSession_B_12(this.se, true), BuyingSession.Complete, new org.scribble.runtime.util.Buf<>((java.lang.Long) m.payload[0]), new org.scribble.runtime.util.Buf<>((com.fullcart.dto.OrderDTO) m.payload[1]));
+			handler.receive(new BuyingSession_B_12(this.se, true), BuyingSession.Complete, new org.scribble.runtime.util.Buf<>((java.lang.Long) m.payload[0]));
 		}
 		else
 		if (m.op.equals(BuyingSession.Bye)) {

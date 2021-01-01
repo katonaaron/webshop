@@ -26,8 +26,8 @@ public final class BuyingSession extends org.scribble.runtime.session.Session {
 	public static final NotAllowed NotAllowed = com.fullcart.session.Webshop.BuyingSession.ops.NotAllowed.NotAllowed;
 	public static final GetAll GetAll = com.fullcart.session.Webshop.BuyingSession.ops.GetAll.GetAll;
 	public static final Create Create = com.fullcart.session.Webshop.BuyingSession.ops.Create.Create;
-	public static final All All = com.fullcart.session.Webshop.BuyingSession.ops.All.All;
 	public static final ProductNotFound ProductNotFound = com.fullcart.session.Webshop.BuyingSession.ops.ProductNotFound.ProductNotFound;
+	public static final Err Err = com.fullcart.session.Webshop.BuyingSession.ops.Err.Err;
 	public static final NotFound NotFound = com.fullcart.session.Webshop.BuyingSession.ops.NotFound.NotFound;
 	public static final Cancel Cancel = com.fullcart.session.Webshop.BuyingSession.ops.Cancel.Cancel;
 	public static final Complete Complete = com.fullcart.session.Webshop.BuyingSession.ops.Complete.Complete;
