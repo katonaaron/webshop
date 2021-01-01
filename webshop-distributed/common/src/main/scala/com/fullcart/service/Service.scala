@@ -8,6 +8,8 @@ trait Service[ID, D <: DTO[ID]] {
 
   def findAll(): java.lang.Iterable[D]
 
+  def findAllById(ids: java.lang.Iterable[ID]): Either[ID, java.lang.Iterable[D]]
+
   def create(dto: D): Either[String, D]
 
   def update(id: ID, dto: D): Option[Either[String, D]]

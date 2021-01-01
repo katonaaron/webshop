@@ -10,7 +10,7 @@ import org.scribble.runtime.util.Buf
 import org.springframework.stereotype.Component
 
 @Component
-class ProductController(private val productService: ProductService) extends AbstractController[ProductSession, roles.P, ProductSession_P_1] {
+class ProductSessionController(private val productService: ProductService) extends AbstractController[ProductSession, roles.P, ProductSession_P_1] {
 
   override def handleRequests(initialState: ProductSession_P_1): Unit = {
     var state = initialState
