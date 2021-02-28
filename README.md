@@ -17,3 +17,7 @@ The project is divided into microservices. Another service is given which acts a
 A `docker-compose.yml` is given for running all the microservices and their corresponding databases in separate, isolated containers.
 
 See the [readme](webshop-distributed/README.md).
+
+## Documentation
+
+Diagrams and explanations in the [documentation](doc/main.pdf).
